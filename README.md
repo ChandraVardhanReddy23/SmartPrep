@@ -34,11 +34,7 @@ A Django web application that helps users **track their contest performance** on
    git clone https://github.com/your-username/contest-tracker.git
    cd contest-tracker
 Create and activate a virtual environment
-
-bash
-Copy
-Edit
-python -m venv venv
+   python -m venv venv
 # Windows
 venv\Scripts\activate
 # Mac/Linux
