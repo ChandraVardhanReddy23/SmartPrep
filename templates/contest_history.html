@@ -1,0 +1,132 @@
+<head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+{% extends "base.html" %}
+
+{% block title %}Contest History{% endblock %}
+
+{% block content %}
+
+<!-- User Greeting -->
+<div class="card p-4 mb-4 border-start border-primary border-5">
+    <h3 class="mb-2">Hello, {{ user.username }} 👋</h3>
+    <p>
+        <strong>Codeforces:</strong> {{ user.userprofile.codeforces_handle }} |
+        <strong>Leetcode:</strong> {{ user.userprofile.leetcode_handle }}
+    </p>
+</div>
+
+<div class="row g-4">
+    <!-- Codeforces Section -->
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h4 class="mb-3">Codeforces Contest History</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Contest</th>
+                        <th>Rank</th>
+                        <th>Old Rating</th>
+                        <th>New Rating</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in cf_contests %}
+                    <tr>
+                        <td>{{ c.contest_name }}</td>
+                        <td>{{ c.rank }}</td>
+                        <td>{{ c.old_rating }}</td>
+                        <td>{{ c.new_rating }}</td>
+                        <td>{{ c.timestamp|date:"d-m-Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h6 class="mt-4">Rating Progress</h6>
+            <canvas id="cfChart" height="250"></canvas>
+        </div>
+    </div>
+
+    <!-- Leetcode Section -->
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h4 class="mb-3">Leetcode Contest Stats</h4>
+            {% if lc_contests %}
+            <ul class="list-group mb-3">
+                <li class="list-group-item">Contests Attended: {{ lc_contests.attended_contests }}</li>
+                <li class="list-group-item">Rating: {{ lc_contests.rating }}</li>
+                <li class="list-group-item">Global Ranking: {{ lc_contests.global_ranking }}</li>
+                <li class="list-group-item">Total Participants: {{ lc_contests.total_participants }}</li>
+                <li class="list-group-item">Top Percentage: {{ lc_contests.top_percentage }}</li>
+            </ul>
+            <h6>Leetcode Performance</h6>
+            <canvas id="lcChart" height="250"></canvas>
+            {% else %}
+            <div class="alert alert-warning">No Leetcode data available.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Codeforces Chart
+    const cfLabels = [{% for c in cf_contests reversed %}"{{ c.timestamp|date:'Y-m-d' }}",{% endfor %}];
+    const cfData = [{% for c in cf_contests reversed %}{{ c.new_rating }},{% endfor %}];
+
+    new Chart(document.getElementById('cfChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: cfLabels,
+            datasets: [{
+                label: 'Rating',
+                data: cfData,
+                borderColor: '#0d6efd',
+                backgroundColor: 'rgba(13,110,253,0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Date' } },
+                y: { title: { display: true, text: 'Rating' }, beginAtZero: false }
+            }
+        }
+    });
+
+    // Leetcode Chart
+    const lcData = {
+        labels: ['Rating', 'Contests', 'Top %'],
+        datasets: [{
+            label: 'Leetcode Stats',
+            data: [
+                {{ lc_contests.rating }},
+                {{ lc_contests.attended_contests }},
+                {{ lc_contests.top_percentage }}
+            ],
+            backgroundColor: ['#6610f2', '#20c997', '#ffc107']
+        }]
+    };
+
+    new Chart(document.getElementById('lcChart'), {
+        type: 'bar',
+        data: lcData,
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+
+{% endblock %}
