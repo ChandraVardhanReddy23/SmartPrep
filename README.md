@@ -29,73 +29,71 @@ A Django web application that helps users **track their contest performance** on
 
 ## ⚙️ Setup Instructions
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/contest-tracker.git
-   cd contest-tracker
-Create and activate a virtual environment
-   python -m venv venv
-# Windows
-venv\Scripts\activate
-# Mac/Linux
-source venv/bin/activate
-
-Install dependencies
+# Clone the repository
+```bash
+git clone https://github.com/your-username/contest-tracker.git
+cd contest-tracker
+```
+# (Optional) Create a virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+```
+# Install dependencies
+```bash
 pip install -r requirements.txt
-
-Run migrations
+```
+# Apply migrations
+```bash
 python manage.py migrate
-
-Start the development server
+```
+# Run the development server
+```bash
 python manage.py runserver
+```
+## 📂 Directory Structure
 
-Visit the app
-http://127.0.0.1:8000/
+ ```bash
+   contest-tracker/
+   ├── tracker/                 # Main Django app
+   │   ├── models.py            # Contest & Profile models
+   │   ├── views.py             # Main logic
+   │   ├── forms.py             # User registration form
+   │   ├── urls.py              # App URLs
+   │   └── signals.py           # Auto-create user profiles
+   ├── templates/
+   │   ├── base.html
+   │   ├── home.html
+   │   ├── register.html
+   │   ├── contest_history.html
+   │   └── registration/
+   │       └── login.html       # Django expects login.html here
+   ├── static/                  # Optional custom CSS/JS
+   ├── db.sqlite3               # SQLite database
+   ├── manage.py                # Django management script
+   ├── requirements.txt         # Python dependencies
+   └── README.md
+```
 
-🧪 Admin Access
-Create a superuser (optional)
-python manage.py createsuperuser
+## 📌 Future Enhancements
+   Support for CodeChef / AtCoder handles
 
-Visit Django Admin Panel
-http://127.0.0.1:8000/admin/
+   Leaderboard among users
 
-📁 Directory Structure
-contest-tracker/
-├── tracker/                 # Main Django app
-│   ├── models.py            # Contest & Profile models
-│   ├── views.py             # Main logic
-│   ├── forms.py             # User registration form
-│   ├── urls.py              # App URLs
-│   └── signals.py           # Auto-create user profiles
-├── templates/
-│   ├── base.html
-│   ├── home.html
-│   ├── register.html
-│   ├── contest_history.html
-│   └── registration/
-│       └── login.html       # Django expects login.html here
-├── static/                  # Optional custom CSS/JS
-│   └── ...
-├── db.sqlite3
-├── manage.py
-├── requirements.txt
-└── README.md
+   OAuth-based login (Google/GitHub)
 
-📌 Future Enhancements
-Support for CodeChef / AtCoder handles
-Leaderboard among users
-OAuth-based login (Google/GitHub)
-Email notifications for upcoming contests
+   Email notifications for upcoming contests
 
-🙏 Acknowledgements
+## 🙏 Acknowledgements
 Django
 Bootstrap
 Chart.js
 Codeforces API
 Leetcode Stats
 
-📄 License
+## 📄 License
 This project is licensed under the MIT License.
+
 Built with 💻 and ❤️ by Chandra Vardhan Reddy
 
 
